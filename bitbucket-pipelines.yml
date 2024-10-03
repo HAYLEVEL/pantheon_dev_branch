@@ -1,0 +1,8 @@
+image: atlassian/default-image:latest
+
+pipelines:
+  default:
+    - step:
+        name: Test
+        script:
+          - echo "ABOBA"
