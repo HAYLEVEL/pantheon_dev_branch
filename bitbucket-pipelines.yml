@@ -5,3 +5,4 @@ pipelines:
             - self.hosted
             - linux
           script:
+          - echo "ABOBA"
