@@ -1,8 +1,8 @@
+image: atlassian/default-image:latest
+
 pipelines:
   default:
-      - step:
-          runs-on:
-            - self.hosted
-            - linux
-          script:
+    - step:
+        name: Test
+        script:
           - echo "ABOBA"
