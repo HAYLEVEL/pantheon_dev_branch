@@ -8,15 +8,18 @@ pipelines:
           - linux
         script:
           - echo "linux"
+          - uname -a
     - step:
         name: CI
         runs-on:
           - ci
         script:
           - echo "ci"
+          - uname -a
     - step:
         name: CD
         runs-on:
           - cd
         script:
           - echo "cd"
+          - uname -a
