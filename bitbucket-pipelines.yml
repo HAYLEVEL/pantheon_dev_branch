@@ -4,5 +4,19 @@ pipelines:
   default:
     - step:
         name: Test
+        runs-on:
+          - linux
         script:
-          - echo "ABOBA"
+          - echo "linux"
+  - step:
+        name: CI
+        runs-on:
+          - ci
+        script:
+          - echo "ci"
+  - step:
+        name: CD
+        runs-on:
+          - cd
+        script:
+          - echo "cd"
