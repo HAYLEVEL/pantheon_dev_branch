@@ -8,13 +8,13 @@ pipelines:
           - linux
         script:
           - echo "linux"
-  - step:
+    - step:
         name: CI
         runs-on:
           - ci
         script:
           - echo "ci"
-  - step:
+    - step:
         name: CD
         runs-on:
           - cd
