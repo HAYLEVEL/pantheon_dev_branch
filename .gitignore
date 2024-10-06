@@ -70,3 +70,5 @@ node_modules/
 /web/themes/custom/bootcamp_theme/css
 /web/themes/custom/bootcamp_theme/js
 /web/themes/custom/bootcamp_theme/sprite
+/.editorconfig
+/.gitattributes
