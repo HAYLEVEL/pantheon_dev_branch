@@ -71,3 +71,4 @@ function hook_gin_ignore_sticky_form_actions() {
 /**
  * @} End of "addtogroup hooks".
  */
+{}
