@@ -26,7 +26,7 @@
  * @see GinContentFormHelper->isContentForm()
  * @see hook_gin_content_form_routes_alter()
  */
-  function hook_gin_content_form_routes() {
+function hook_gin_content_form_routes() {
   return [
     // Layout a custom node form.
     'entity.node.my_custom_form',
