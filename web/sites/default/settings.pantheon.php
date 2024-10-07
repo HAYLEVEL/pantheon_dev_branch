@@ -6,7 +6,7 @@
  * @file
  * Pantheon configuration file.
  *
- *  IMPORTANT NOTE:
+ * IMPORTANT NOTE:
  * Do not modify this file. This file is maintained by Pantheon.
  *
  * Site-specific modifications belong in settings.php, not this file. This file
