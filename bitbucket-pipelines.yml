@@ -12,6 +12,7 @@ pipelines:
                 - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
                 - git fetch origin $BITBUCKET_BRANCH $BITBUCKET_PR_DESTINATION_BRANCH
                 - composer install --no-progress
+                - wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b ~/bin
                 - |
                   CHANGED_FILES=$(git diff --name-only origin/$BITBUCKET_BRANCH origin/$BITBUCKET_PR_DESTINATION_BRANCH -- | grep -E '\.(php|module|install|theme)$' || true)
                   echo "Changed files: $CHANGED_FILES"
@@ -19,7 +20,7 @@ pipelines:
                 # Run linter only on changed files
                 - |
                   if [ -n "$CHANGED_FILES" ]; then
-                    vendor/bin/phpcs --standard=Drupal,DrupalPractice $CHANGED_FILES
+                    vendor/bin/phpcs --standard=Drupal,DrupalPractice $CHANGED_FILES --report=checkstyle | reviewdog -f=golangci-lint -reporter=bitbucket-code-report
                   else
                     echo "No PHP files changed."
                   fi
