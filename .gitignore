@@ -96,5 +96,26 @@
 # Ignore .env files as they are personal
 #/.env
 
+/web/modules/README.txt
+/web/profiles/README.txt
+/web/sites/example.settings.local.php
+/web/sites/example.sites.php
+/web/sites/README.txt
+/web/themes/README.txt
+/web/robots.txt
+/web/example.gitignore
+/web/INSTALL.txt
+/web/LICENSE.txt
+/web/README.txt
+/web/robots.txt
+/web/update.php
+/web/web.config
+/web/.eslintignore
+/web/.eslintrc.json
+/web/.gitattributes
+/web/.htaccess
+/web/.ht.router.php
+/web/.csslintrc
+
 # Ignore node files
 node_modules/

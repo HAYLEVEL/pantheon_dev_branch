@@ -1,9 +1,8 @@
 {
-    "name": "drupal/recommended-project",
-    "description": "Project template for Drupal projects with a relocated document root",
+    "name": "pantheon-upstreams/drupal-composer-managed",
+    "description": "Install Drupal 9 with Composer on Pantheon.",
     "type": "project",
-    "license": "GPL-2.0-or-later",
-    "homepage": "https://www.drupal.org/project/drupal",
+    "license": "MIT",
     "support": {
         "docs": "https://www.drupal.org/docs/user_guide/en/index.html",
         "chat": "https://www.drupal.org/node/314178"
@@ -49,7 +48,8 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "php-http/discovery": true,
             "cweagans/composer-patches": true,
-            "drupal/core-vendor-hardening": true
+            "drupal/core-vendor-hardening": true,
+            "tbachert/spi": true
         },
         "sort-packages": true
     },
@@ -64,36 +64,24 @@
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"
+            },
+            "allowed-packages": ["pantheon-systems/drupal-integrations"],
+            "file-mapping": {
+                "[project-root]/.editorconfig": false,
+                "[project-root]/pantheon.upstream.yml": false,
+                "[project-root]/.gitattributes": false
             }
         },
         "installer-paths": {
-            "web/core": [
-                "type:drupal-core"
-            ],
-            "web/libraries/{$name}": [
-                "type:drupal-library"
-            ],
-            "web/modules/contrib/{$name}": [
-                "type:drupal-module"
-            ],
-            "web/profiles/contrib/{$name}": [
-                "type:drupal-profile"
-            ],
-            "web/themes/contrib/{$name}": [
-                "type:drupal-theme"
-            ],
-            "drush/Commands/contrib/{$name}": [
-                "type:drupal-drush"
-            ],
-            "web/modules/custom/{$name}": [
-                "type:drupal-custom-module"
-            ],
-            "web/profiles/custom/{$name}": [
-                "type:drupal-custom-profile"
-            ],
-            "web/themes/custom/{$name}": [
-                "type:drupal-custom-theme"
-            ]
+            "web/core": ["type:drupal-core"],
+            "web/libraries/{$name}": ["type:drupal-library"],
+            "web/modules/contrib/{$name}": ["type:drupal-module"],
+            "web/profiles/contrib/{$name}": ["type:drupal-profile"],
+            "web/themes/contrib/{$name}": ["type:drupal-theme"],
+            "drush/Commands/contrib/{$name}": ["type:drupal-drush"],
+            "web/modules/custom/{$name}": ["type:drupal-custom-module"],
+            "web/profiles/custom/{$name}": ["type:drupal-custom-profile"],
+            "web/themes/custom/{$name}": ["type:drupal-custom-theme"]
         },
         "drupal-core-project-message": {
             "include-keys": [
@@ -102,7 +90,7 @@
             ],
             "post-create-project-cmd-message": [
                 "<bg=blue;fg=white>                                                         </>",
-                "<bg=blue;fg=white>  Congratulations, you’ve installed the Drupal codebase  </>",
+                "<bg=blue;fg=white>  Congratulations, you\u2019ve installed the Drupal codebase  </>",
                 "<bg=blue;fg=white>  from the drupal/recommended-project template!          </>",
                 "<bg=blue;fg=white>                                                         </>",
                 "",
@@ -124,12 +112,12 @@
         "slevomat/coding-standard": "^8.15",
         "squizlabs/php_codesniffer": "^3.10"
     },
+    "autoload": {
+        "classmap": ["upstream-configuration/scripts/ComposerScripts.php"]
+    },
     "scripts": {
-        "post-install-cmd": [
-            "./cleanup_tests.sh"
-        ],
-        "post-update-cmd": [
-            "./cleanup_tests.sh"
-        ]
+        "post-install-cmd": ["./cleanup_tests.sh"],
+        "pre-update-cmd": ["DrupalComposerManaged\\ComposerScripts::preUpdate"],
+        "post-update-cmd": ["DrupalComposerManaged\\ComposerScripts::postUpdate"]
     }
 }
