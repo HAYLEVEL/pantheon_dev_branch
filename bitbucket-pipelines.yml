@@ -40,8 +40,8 @@ pipelines:
                   echo "Changed files: $CHANGED_FILES"
                 - npx eslint --no-error-on-unmatched-pattern $CHANGED_FILES
 
-           - step:
-              name: "Trivy"
-              image: aquasec/trivy:latest
-              script:
-                -  trivy fs .
+          - step:
+             name: "Trivy"
+             image: aquasec/trivy:latest
+             script:
+               -  trivy fs .
