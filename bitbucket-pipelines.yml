@@ -20,7 +20,7 @@ pipelines:
                 # Run linter only on changed files
                 - |
                   if [ -n "$CHANGED_FILES" ]; then
-                    vendor/bin/phpcs --standard=Drupal,DrupalPractice $CHANGED_FILES #--report=checkstyle | ~/bin/reviewdog -f=golangci-lint -reporter=bitbucket-code-report
+                    vendor/bin/phpcs --standard=Drupal,DrupalPractice $CHANGED_FILES --report=checkstyle | ~/bin/reviewdog -f=checkstyle -name="ESLint" -reporter=bitbucket-code-report
                   else
                     echo "No PHP files changed."
                   fi
