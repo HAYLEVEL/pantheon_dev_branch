@@ -1,8 +1,45 @@
-image: atlassian/default-image:latest
+image: wodby/drupal-php:8.3-dev-4.61.2
 
 pipelines:
-  default:
-    - step:
-        name: Test
-        script:
-          - echo "ABOBA"
+  pull-requests:
+    '**':
+      - parallel:
+          - step:
+              name: "Lint_PHPCS"
+              runs-on:
+                - ci
+              script:
+                - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
+                - git fetch origin $BITBUCKET_BRANCH $BITBUCKET_PR_DESTINATION_BRANCH
+                - composer install --no-progress
+                - wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b ~/bin
+                - |
+                  CHANGED_FILES=$(git diff --name-only origin/$BITBUCKET_BRANCH origin/$BITBUCKET_PR_DESTINATION_BRANCH -- | grep -E '\.(php|module|install|theme)$' || true)
+                  echo "Changed files: $CHANGED_FILES"
+                # Run linter only on changed files
+                - |
+                  if [ -n "$CHANGED_FILES" ]; then
+                    vendor/bin/phpcs --standard=Drupal,DrupalPractice $CHANGED_FILES --report=checkstyle | ~/bin/reviewdog -f=checkstyle -name="PHPCS" -reporter=bitbucket-code-report
+                  else
+                    echo "No PHP files changed."
+                  fi
+          - step:
+              name: "Lint_ESLint"
+              runs-on:
+                - ci
+              script:
+                - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
+                - git fetch origin $BITBUCKET_BRANCH $BITBUCKET_PR_DESTINATION_BRANCH
+                - sudo apk add npm
+                - composer install --no-progress
+                - sudo npm install eslint eslint-config-airbnb eslint-plugin-yml eslint-plugin-prettier eslint-config-drupal --save-dev
+                - wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b ~/bin
+                - |
+                  CHANGED_FILES=$(git diff --name-only origin/$BITBUCKET_BRANCH origin/$BITBUCKET_PR_DESTINATION_BRANCH | grep -E '\.(js)$' || true)
+                  echo "Changed files: $CHANGED_FILES"
+                - npx eslint --no-error-on-unmatched-pattern $CHANGED_FILES --format=checkstyle | ~/bin/reviewdog -f=checkstyle -name="ESLint" -reporter=bitbucket-code-report
+          - step:
+             name: "Trivy"
+             image: aquasec/trivy:latest
+             script:
+               - trivy fs .
