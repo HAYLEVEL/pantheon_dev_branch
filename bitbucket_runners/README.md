@@ -34,4 +34,10 @@ This document provides the steps to configure Bitbucket runners
 5. Save the stack and up it.
 6. If you did everything correctly, you will see the active status on the page with runners
 
+### 4. Using in pipelines
+To use your runners you must add correct labels when create runners. Also, you must add a runs-on directive with your label in the pipeline.
 
+```bash
+runs-on:
+  - example_label
+```
