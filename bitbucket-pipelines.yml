@@ -4,7 +4,6 @@ pipelines:
   pull-requests:
     '**':
       - parallel:
-        steps:
           - step:
               name: "Lint_PHPCS"
               runs-on:
