@@ -1,7 +1,7 @@
 <?php
 
 namespace Drupal\gin;
-{
+[
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Form\FormStateInterface;
