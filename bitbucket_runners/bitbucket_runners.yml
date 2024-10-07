@@ -1,0 +1,48 @@
+services:
+  runner1:
+    image: docker-public.packages.atlassian.com/sox/atlassian/bitbucket-pipelines-runner
+    container_name: runner-f5cd9a9d-cc45-592e-a1f6-717bcb4e4464
+    environment:
+      - ACCOUNT_UUID={89c359c9-3539-4868-8515-84d01087c9e5}
+      - REPOSITORY_UUID={a5c8b12b-3b42-4187-8e93-4d6f087d4083}
+      - RUNNER_UUID={f5cd9a9d-cc45-592e-a1f6-717bcb4e4464}
+      - RUNTIME_PREREQUISITES_ENABLED=true
+      - OAUTH_CLIENT_ID=H5Og5VIbtvq33Tgl80HJEqImC9PQW04m
+      - OAUTH_CLIENT_SECRET=ATOAIdgqOre6VVy5er6eaKrsAu5sL8dUqjlAF8gmcJNMIstbebtczUGdnqNonAAA_tsL5E127398
+      - WORKING_DIRECTORY=/tmp
+    volumes:
+      - /tmp:/tmp
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/containers:/var/lib/docker/containers:to
+
+  runner_ci:
+    image: docker-public.packages.atlassian.com/sox/atlassian/bitbucket-pipelines-runner
+    container_name: runner-b96ae826-c702-5c95-8aaf-4ddf27af875b
+    environment:
+      - ACCOUNT_UUID={89c359c9-3539-4868-8515-84d01087c9e5}
+      - REPOSITORY_UUID={a5c8b12b-3b42-4187-8e93-4d6f087d4083}
+      - RUNNER_UUID={b96ae826-c702-5c95-8aaf-4ddf27af875b}
+      - RUNTIME_PREREQUISITES_ENABLED=true
+      - OAUTH_CLIENT_ID=CtIJ4XtS2xUdIKeMkLcPmkllbQspdrDx
+      - OAUTH_CLIENT_SECRET=ATOAecg3KMApW09shjUEaT7bMkVLkBuCnRH-y8onjAWG2pe943-CbRtMy7gt1IrpIwTl25DA5CF3
+      - WORKING_DIRECTORY=/tmp
+    volumes:
+      - /tmp:/tmp
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+
+  runner_cd:
+    image: docker-public.packages.atlassian.com/sox/atlassian/bitbucket-pipelines-runner
+    container_name: runner-ae64c798-ca0e-5a6f-a0d9-fc5cd01bfb21
+    environment:
+      - ACCOUNT_UUID={89c359c9-3539-4868-8515-84d01087c9e5}
+      - REPOSITORY_UUID={a5c8b12b-3b42-4187-8e93-4d6f087d4083}
+      - RUNNER_UUID={ae64c798-ca0e-5a6f-a0d9-fc5cd01bfb21}
+      - RUNTIME_PREREQUISITES_ENABLED=true
+      - OAUTH_CLIENT_ID=SFwdr0PaYAgUKrcawWZp4lA9wSyLtf17
+      - OAUTH_CLIENT_SECRET=ATOAFkcBIh1cnwJuahyvbAM7MXGoijaKfjSRIy7wn78LcOMfPcAe4UAiMqhqUnKnEKvS0B7FA8F0
+      - WORKING_DIRECTORY=/tmp
+    volumes:
+      - /tmp:/tmp
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
