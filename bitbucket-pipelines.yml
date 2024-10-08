@@ -45,9 +45,4 @@ pipelines:
              name: "Trivy"
              image: aquasec/trivy:latest
              script:
-               - trivy fs ./composer.lock | tee trivy_report.txt || true
-               - if grep -q -E 'HIGH|CRITICAL' trivy_report.txt; then
-                   echo "Vulnerabilities found!";
-                   exit 1;
-                 fi
-
+               - trivy fs --exit-code 1 --severity HIGH,CRITICAL ./composer.lock
