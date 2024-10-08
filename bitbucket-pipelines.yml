@@ -8,5 +8,4 @@ pipelines:
             - cd
           image: alpine:latest
           script:
-            - git status
             - ls -la
