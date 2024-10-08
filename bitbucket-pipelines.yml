@@ -45,7 +45,7 @@ pipelines:
              name: "Trivy"
              image: aquasec/trivy:latest
              script:
-               - trivy fs --severity HIGH,CRITICAL . | tee trivy_report.txt || true
+               - trivy fs . | tee trivy_report.txt || true
                - if grep -q -E 'HIGH|CRITICAL' trivy_report.txt; then
                    echo "Vulnerabilities found!";
                    exit 1;
