@@ -9,7 +9,7 @@ pipelines:
           image: wodby/drupal-php:8.3-dev-4.61.2
           script:
              # Installing terminus
-            - apt get update && apt get install -y git curl
+            - sudo apt update && sudo apt install -y git curl
             - curl -L https://github.com/pantheon-systems/terminus/releases/download/3.6.0/terminus.phar --output terminus
             - chmod +x terminus
             - ./terminus self:update
