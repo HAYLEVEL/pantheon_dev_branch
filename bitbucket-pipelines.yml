@@ -10,5 +10,5 @@ pipelines:
           script:
             - apk add git
             - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
-            - git fetch origin
             - git --version
+            - curl --version
