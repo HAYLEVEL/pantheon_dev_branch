@@ -16,5 +16,6 @@ pipelines:
             # Configuring git
             - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
             - git remote add pantheon $PANTHEONE_REPO
+            - git fetch pantheon
             - git remote -v
-            - cat /etc/os-release
+            - git diff  $BITBUCKET_BRANCH $BITBUCKET_CLONE_DIR pantheon/master
