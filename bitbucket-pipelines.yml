@@ -15,6 +15,6 @@ pipelines:
             - ./terminus self:update
             # Configuring git
             - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
-            - git remote add pantheon ssh://codeserver.dev.0220c6d2-7ed1-40fd-97ea-5f47e76c6a12@codeserver.dev.0220c6d2-7ed1-40fd-97ea-5f47e76c6a12.drush.in:2222/~/repository.git
+            - git remote add pantheon $PANTHEONE_REPO
             - git remote -v
             - cat /etc/os-release
