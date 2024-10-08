@@ -1,6 +1,6 @@
 pipelines:
-    branches:
-      CDtest
+  branches:
+    CDtest:
     #'*.dev':
       - step:
           name: "Deploy_Pantheon"
