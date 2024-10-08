@@ -1,8 +1,8 @@
 pipelines:
   tags:
-    '*.dev'
+    '*.dev':
       - step:
-          name: Deploy_Pantheon
+          name: "Deploy_Pantheon"
           runs-on:
             - cd
           image: alpine:latest
