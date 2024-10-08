@@ -1,5 +1,5 @@
 <?php
-
+>
 namespace Drupal\gin;
 
 use Drupal\block_content\Entity\BlockContentType;
