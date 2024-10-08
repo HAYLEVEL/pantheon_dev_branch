@@ -1,8 +1,10 @@
-image: atlassian/default-image:latest
-
 pipelines:
-  default:
-    - step:
-        name: Test
-        script:
-          - echo "ABOBA"
+  tags:
+    '*.dev'
+      - step:
+          name: Deploy_Pantheon
+          runs-on:
+            - cd
+          image: alpine:latest
+          script:
+            - apk add git
