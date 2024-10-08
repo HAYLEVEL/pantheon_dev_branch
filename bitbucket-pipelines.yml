@@ -45,4 +45,4 @@ pipelines:
              name: "Trivy"
              image: aquasec/trivy:latest
              script:
-               - trivy fs .
+               - trivy fs --exit-code 1 --severity HIGH,CRITICAL .
