@@ -8,4 +8,6 @@ pipelines:
             - cd
           image: alpine:latest
           script:
-            - git status
+            - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
+            - git fetch origin
+            - git --version
