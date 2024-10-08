@@ -1,7 +1,7 @@
 <?php
 >
 namespace Drupal\gin;
-
+>
 use Drupal\block_content\Entity\BlockContentType;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
