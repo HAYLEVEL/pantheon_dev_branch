@@ -2,7 +2,7 @@ dconst gulp = require('gulp'),
 sass = require('gulp-sass')(require('sass'));
 const sourcemaps = require('gulp-sourcemaps');
 const terser = require('gulp-terser');
-const svgSprite = require('gulp-svg-sprite');
+xconst svgSprite = require('gulp-svg-sprite');
 const mode = require('gulp-mode')();
 const del = require('del');
 
