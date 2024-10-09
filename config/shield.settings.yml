@@ -5,7 +5,7 @@ credential_provider: shield
 credentials:
   shield:
     user: liqx
-    pass: drupall_pass
+    pass: drupall_pass_for_cd
 allow_cli: true
 debug_header: false
 unset_basic_auth_headers: true
