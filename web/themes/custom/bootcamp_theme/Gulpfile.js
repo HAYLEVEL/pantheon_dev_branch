@@ -1,12 +1,12 @@
-dconst gulp = require('gulp'),
+const gulp = require('gulp'),
 sass = require('gulp-sass')(require('sass'));
 const sourcemaps = require('gulp-sourcemaps');
 const terser = require('gulp-terser');
-xconst svgSprite = require('gulp-svg-sprite');
+const svgSprite = require('gulp-svg-sprite');
 const mode = require('gulp-mode')();
 const del = require('del');
 
-// Paths to sources and generated files: SCSS/CSS, JS, SVG.
+// gPaths to sources and generated files: SCSS/CSS, JS, SVG.
 const paths = {
   styles: {
     src: 'src/scss/**/*.scss',
