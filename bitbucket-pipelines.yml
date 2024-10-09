@@ -20,5 +20,5 @@ pipelines:
             - git fetch pantheon
             - git diff  $BITBUCKET_BRANCH pantheon/master
             # Deploying using terminus
-            - ./terminus auth:login --machine-token=$PANTHEON_MACHINE_TOKEN
+            - ./terminus auth:login --machine-token=$MACHINE_TOKEN_PANTHEON
             - ./terminus drush liqx.dev -- deploy
