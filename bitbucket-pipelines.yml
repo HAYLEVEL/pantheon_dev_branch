@@ -21,7 +21,7 @@ pipelines:
             - git diff  $BITBUCKET_BRANCH pantheon/master
             # Merging changes
             - git checkout pantheon/master
-            - git merge origin/$BITBUCKET_BRANCH
+            - git merge origin/$BITBUCKET_BRANCH --allow-unrelated-histories
             - git push pantheon HEAD:master
             # Deploying using terminus
             - ./terminus auth:login --machine-token=$MACHINE_TOKEN_PANTHEON
