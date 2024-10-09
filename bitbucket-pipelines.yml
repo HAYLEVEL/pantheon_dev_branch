@@ -43,6 +43,8 @@ pipelines:
 
           - step:
              name: "Trivy"
+             runs-on:
+                - ci
              image: aquasec/trivy:latest
              script:
                - trivy fs --exit-code 1 --severity HIGH,CRITICAL,MEDIUM ./
