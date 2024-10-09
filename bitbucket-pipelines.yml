@@ -19,6 +19,10 @@ pipelines:
             - ssh-keyscan -p 2222 $PANTHEON_HOST >> ~/.ssh/known_hosts
             - git fetch pantheon
             - git diff  $BITBUCKET_BRANCH pantheon/master
+            # Merging changes
+            - checkout pantheon/master
+            - git merge origin/$BITBUCKET_BRANCH
+            - git push pantheon HEAD:master
             # Deploying using terminus
             - ./terminus auth:login --machine-token=$MACHINE_TOKEN_PANTHEON
             - ./terminus drush liqx.dev -- deploy
