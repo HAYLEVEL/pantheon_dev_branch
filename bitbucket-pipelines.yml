@@ -19,3 +19,4 @@ pipelines:
             - git fetch pantheon
             - git remote -v
             - git diff  $BITBUCKET_BRANCH $BITBUCKET_CLONE_DIR pantheon/master
+#
