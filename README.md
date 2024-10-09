@@ -1,29 +1,22 @@
-# README #
+# Composer-enabled Drupal template
 
-This README would normally document whatever steps are necessary to get your application up and running.
+This is Pantheon's recommended starting point for forking new [Drupal](https://www.drupal.org/) upstreams
+that work with the Platform's Integrated Composer build process. It is also the
+Platform's standard Drupal 9 upstream.
 
-### What is this repository for? ###
+Unlike with earlier Pantheon upstreams, files such as Drupal Core that you are
+unlikely to adjust while building sites are not in the main branch of the 
+repository. Instead, they are referenced as dependencies that are installed by
+Composer.
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+For more information and detailed installation guides, please visit the
+Integrated Composer Pantheon documentation: https://pantheon.io/docs/integrated-composer
 
-### How do I get set up? ###
+## Contributing
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+Contributions are welcome in the form of GitHub pull requests. However, the
+`pantheon-upstreams/drupal-composer-managed` repository is a mirror that does not
+directly accept pull requests.
 
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+Instead, to propose a change, please fork [pantheon-systems/drupal-composer-managed](https://github.com/pantheon-systems/drupal-composer-managed)
+and submit a PR to that repository.
