@@ -1,9 +1,8 @@
 <?php
 
-
 /**
  * @file
- * Hooks for gin theme.
+ * Hasooks for gin theme.
  */
 
 /**
