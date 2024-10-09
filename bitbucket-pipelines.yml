@@ -25,4 +25,5 @@ pipelines:
             - git push pantheon HEAD:master
             # Deploying using terminus
             - ./terminus auth:login --machine-token=$MACHINE_TOKEN_PANTHEON
+            - sleep 180  # Wait for 3 minutes (180 seconds)
             - ./terminus drush liqx.dev -- deploy
