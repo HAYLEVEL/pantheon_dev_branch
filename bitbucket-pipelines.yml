@@ -22,8 +22,6 @@ pipelines:
                   if [ -n "$CHANGED_FILES" ]; then
                     vendor/bin/phpcs --standard=Drupal,DrupalPractice $CHANGED_FILES --report=full || vendor/bin/phpcs --standard=Drupal,DrupalPractice $CHANGED_FILES --report=checkstyle | ~/bin/reviewdog -f=checkstyle -name="PHPCS" -reporter=bitbucket-code-report -fail-level=any
                   else
-
-                  else
                     echo "No PHP files changed."
                   fi
 
