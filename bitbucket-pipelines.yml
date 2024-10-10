@@ -8,6 +8,8 @@ pipelines:
               name: "Lint_PHPCS"
               runs-on:
                 - ci
+              caches:
+                - composer
               script:
                 - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
                 - git fetch origin $BITBUCKET_BRANCH $BITBUCKET_PR_DESTINATION_BRANCH
@@ -29,6 +31,8 @@ pipelines:
               name: "Lint_ESLint"
               runs-on:
                 - ci
+              caches:
+                - node
               script:
                 - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
                 - git fetch origin $BITBUCKET_BRANCH $BITBUCKET_PR_DESTINATION_BRANCH
