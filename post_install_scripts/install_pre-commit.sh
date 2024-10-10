@@ -4,7 +4,6 @@ if [[ -n "$PANTHEON_ENVIRONMENT" ]]; then
 else
     cp ./.githooks/pre-commit ./.git/hooks/pre-commit
     chmod +x ./.git/hooks/pre-commit
-    npm install eslint eslint-config-airbnb eslint-plugin-yml --save-dev
-    npm i eslint-config-drupal
+    npm install
     echo "The pre-commit hook installed"
 fi
