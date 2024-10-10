@@ -52,3 +52,8 @@ pipelines:
              image: aquasec/trivy:latest
              script:
                - trivy fs --exit-code 1 --severity HIGH,CRITICAL,MEDIUM ./
+
+definitions:
+  caches:
+    composer: ~/.composer/cache
+    npm: ~/.npm
