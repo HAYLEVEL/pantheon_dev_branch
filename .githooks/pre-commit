@@ -17,8 +17,6 @@ if [ -z "$CHANGED_FILES" ]; then
   echo "No JS-related files have changed, skipping ESLINT."
 else
   # Run ESLint on the changed files
-  npm install eslint eslint-config-airbnb eslint-plugin-yml --save-dev
-  npm i eslint-config-drupal
   npx eslint $CHANGED_FILES
 fi
 # Capture the exit code of ESLint
