@@ -34,7 +34,7 @@ pipelines:
                 - git fetch origin $BITBUCKET_BRANCH $BITBUCKET_PR_DESTINATION_BRANCH
                 - sudo apk add npm
                 - composer install --no-progress
-                - sudo npm install eslint eslint-config-airbnb eslint-plugin-yml eslint-plugin-prettier eslint-config-drupal --save-dev
+                - sudo npm install
                 - wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b ~/bin
                 - |
                   CHANGED_FILES=$(git diff --name-only origin/$BITBUCKET_BRANCH origin/$BITBUCKET_PR_DESTINATION_BRANCH | grep -E '\.(js)$' || true)
