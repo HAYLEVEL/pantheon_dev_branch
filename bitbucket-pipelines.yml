@@ -22,11 +22,12 @@ pipelines:
                 - |
                   if [ -n "$CHANGED_FILES" ]; then
                     vendor/bin/phpcs --standard=Drupal,DrupalPractice $CHANGED_FILES --report=checkstyle | tee phpcs_report.txt
-                    cat phpcs_report.txt
-                    ~/bin/reviewdog -f=checkstyle -name="PHPCS" -reporter=bitbucket-code-report -fail-level=any < phpcs_report.txt
                   else
                     echo "No PHP files changed."
+                    exit 0;
                   fi
+                - cat phpcs_report.txt
+                - ~/bin/reviewdog -f=checkstyle -name="PHPCS" -reporter=bitbucket-code-report -fail-level=any < phpcs_report.txt
 
           - step:
               name: "ESLint"
