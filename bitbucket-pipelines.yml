@@ -4,7 +4,7 @@ pipelines:
       - step:
           name: "Deploy_Pantheon"
           runs-on:
-            - cd
+            - self.hosted
           image: wodby/drupal-php:8.3-dev-4.61.2
           script:
              # Installing terminus
