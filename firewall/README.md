@@ -61,6 +61,13 @@ sudo sh -c "iptables-save > /etc/iptables/rules.v4"
 ## Resetting the iptables Configuration
 
 If at any time you want to reset the iptables configuration to allow all traffic (removing all rules), you can use the following commands:
+
+1. **Ensure port 22 is allowed after flushing rules: Before running these commands, add an explicit rule allowing SSH:**
+```bash
+sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+```
+
+2. **Flush iptables and ensure access:**
 ```bash
 sudo iptables -F
 sudo iptables -P INPUT ACCEPT
