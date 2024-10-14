@@ -24,6 +24,6 @@ pipelines:
             - git push pantheon HEAD:master
             # Deploying using terminus
             - ./terminus auth:login --machine-token=$MACHINE_TOKEN_PANTHEON
-            - terminus workflow:wait --commit $(git rev-parse HEAD) --max=300 -- liqx.dev
+            - ./terminus workflow:wait --commit $(git rev-parse HEAD) --max=300 -- liqx.dev
             - ./terminus drush liqx.dev -- deploy
 
