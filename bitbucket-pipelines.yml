@@ -33,6 +33,7 @@ pipelines:
                 - ci
               caches:
                 - node
+                - composer
               script:
                 - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
                 - git fetch origin $BITBUCKET_BRANCH $BITBUCKET_PR_DESTINATION_BRANCH
@@ -51,7 +52,7 @@ pipelines:
                 - ci
              image: aquasec/trivy:latest
              script:
-               - trivy fs --exit-code 1 --severity HIGH,CRITICAL,MEDIUM ./
+               - trivy fs --exit-code 1 ./
 
 definitions:
   caches:
