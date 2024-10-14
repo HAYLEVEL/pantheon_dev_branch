@@ -119,3 +119,8 @@
 
 # Ignore node files
 node_modules/
+
+# Ignore gulp generated files
+/web/themes/custom/bootcamp_theme/css
+/web/themes/custom/bootcamp_theme/js
+/web/themes/custom/bootcamp_theme/sprite
