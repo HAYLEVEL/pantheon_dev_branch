@@ -39,9 +39,10 @@ pipelines:
             - git add -f web/themes/custom/bootcamp_theme/js
             - git add -f web/themes/custom/bootcamp_theme/css
             - git add -f web/themes/custom/bootcamp_theme/sprite
+            - cd web/themes/custom/bootcamp_theme/
             - ls -la
-            - git commit -m "Add generated files"
-            - git push pantheon HEAD:master
+#            - git commit -m "Add generated files"
+#            - git push pantheon HEAD:master
             # Deploying using terminus
             - ./terminus auth:login --machine-token=$MACHINE_TOKEN_PANTHEON
             - ./terminus workflow:wait --commit $(git rev-parse HEAD) --max=300 -- liqx.dev
