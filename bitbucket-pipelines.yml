@@ -1,5 +1,4 @@
 image: wodby/drupal-php:8.3-dev-4.61.2
-
 pipelines:
   pull-requests:
     '**':
@@ -23,11 +22,12 @@ pipelines:
                 - |
                   if [ -n "$CHANGED_FILES" ]; then
                     vendor/bin/phpcs --standard=Drupal,DrupalPractice $CHANGED_FILES --report=checkstyle | tee phpcs_report.txt
-                    cat phpcs_report.txt
-                    ~/bin/reviewdog -f=checkstyle -name="PHPCS" -reporter=bitbucket-code-report -fail-level=any < phpcs_report.txt
                   else
                     echo "No PHP files changed."
+                    exit 0;
                   fi
+                - cat phpcs_report.txt
+                - ~/bin/reviewdog -f=checkstyle -name="PHPCS" -reporter=bitbucket-code-report -fail-level=any < phpcs_report.txt
 
           - step:
               name: "ESLint"
@@ -41,7 +41,7 @@ pipelines:
                 - git fetch origin $BITBUCKET_BRANCH $BITBUCKET_PR_DESTINATION_BRANCH
                 - sudo apk add npm
                 - composer install --no-progress
-                - sudo npm install eslint eslint-config-airbnb eslint-plugin-yml eslint-plugin-prettier eslint-config-drupal --save-dev
+                - sudo npm install
                 - wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b ~/bin
                 - |
                   CHANGED_FILES=$(git diff --name-only origin/$BITBUCKET_BRANCH origin/$BITBUCKET_PR_DESTINATION_BRANCH | grep -E '\.(js)$' || true)
@@ -62,3 +62,4 @@ definitions:
   caches:
     composer: ~/.composer/cache
     npm: ~/.npm
+
