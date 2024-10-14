@@ -126,4 +126,4 @@ node_modules/
 /web/themes/custom/bootcamp_theme/sprite/
 
 # Ignore terminus
-/terminus/
+terminus
