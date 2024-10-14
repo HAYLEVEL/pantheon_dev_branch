@@ -8,6 +8,7 @@ pipelines:
           image: wodby/node:18-dev-1.14.2
           script:
             - cd web/themes/custom/bootcamp_theme/
+            - npm install && npm run build
             - ls -la
 
 
