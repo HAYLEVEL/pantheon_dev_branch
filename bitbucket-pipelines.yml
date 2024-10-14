@@ -2,12 +2,12 @@ pipelines:
   branches:
     '**':
       - step:
-        name: "Build"
-        runs-on:
+          name: "Build"
+          runs-on:
             - self.hosted
-        image: wodby/node:18-dev-1.14.2
-        script:
-          - ls -la
+          image: wodby/node:18-dev-1.14.2
+          script:
+            - ls -la
 
 
 #      - step:
