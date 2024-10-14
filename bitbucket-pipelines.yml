@@ -56,7 +56,7 @@ pipelines:
                 - self.hosted
              image: aquasec/trivy:latest
              script:
-               - trivy fs --exit-code 1 ./
+               - trivy fs --exit-code 1 --format table ./
 
 definitions:
   caches:
