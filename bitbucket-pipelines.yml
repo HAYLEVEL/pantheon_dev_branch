@@ -8,11 +8,11 @@ pipelines:
           image: wodby/node:18-dev-1.14.2
           caches:
             - node # Cache node_modules for faster npm install
-            - custom-theme-cache
           script:
             - cd web/themes/custom/bootcamp_theme/
             - npm install && npm run build
             - ls -la
+            - mkdir -p /opt/cache/js /opt/cache/css /opt/cache/sprite
             - cp -R js/ /opt/cache/js
             - cp -R css/ /opt/cache/css
             - cp -R sprite/ /opt/cache/sprite
