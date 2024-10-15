@@ -7,7 +7,7 @@ pipelines:
             - self.hosted
           image: wodby/node:18-dev-1.14.2
           caches:
-            - theme_cache
+            - themecache
             - node # Cache node_modules for faster npm install
           script:
             - cd web/themes/custom/bootcamp_theme/
@@ -58,4 +58,4 @@ pipelines:
 #            - ./terminus drush liqx.dev -- deploy
 definitions:
   caches:
-    theme_cache: /build_cache
+    themecache: /build_cache
