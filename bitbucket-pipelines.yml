@@ -27,28 +27,28 @@ pipelines:
             - chmod +x terminus
             - ./terminus self:update
             # Configuring git
-            - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
-            - git remote add pantheon $PANTHEON_REPO
-            - ssh-keyscan -p 2222 $PANTHEON_HOST >> ~/.ssh/known_hosts
-            - git fetch pantheon
-            - git diff  $BITBUCKET_BRANCH pantheon/master
+#            - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
+#            - git remote add pantheon $PANTHEON_REPO
+#            - ssh-keyscan -p 2222 $PANTHEON_HOST >> ~/.ssh/known_hosts
+#            - git fetch pantheon
+#            - git diff  $BITBUCKET_BRANCH pantheon/master
             # Merging changes
-            - git checkout pantheon/master
+#            - git checkout pantheon/master
 #            - git pull pantheon master
-            - git status
-            - git merge origin/$BITBUCKET_BRANCH --allow-unrelated-histories
+#            - git status
+#            - git merge origin/$BITBUCKET_BRANCH --allow-unrelated-histories
             # Force adding the generated files, bypassing .gitignore
-            - git status
-#            - cp -R $BITBUCKET_ARTIFACTS_DIR/web/themes/custom/bootcamp_theme/js web/themes/custom/bootcamp_theme/js
+#            - git status
+            - cat web/themes/custom/bootcamp_theme/js
             - ls $BITBUCKET_ARTIFACTS_DIR/
-            - git add -v -f web/themes/custom/bootcamp_theme/js
-            - git add -v -f web/themes/custom/bootcamp_theme/css
-            - git add -v -f web/themes/custom/bootcamp_theme/sprite
-            - git status
-            - git commit -m "Add generated files"
+#            - git add -v -f web/themes/custom/bootcamp_theme/js
+#            - git add -v -f web/themes/custom/bootcamp_theme/css
+#            - git add -v -f web/themes/custom/bootcamp_theme/sprite
+#            - git status
+#            - git commit -m "Add generated files"
     #        - git push pantheon HEAD:master
             # Deploying using terminus
-            - ./terminus auth:login --machine-token=$MACHINE_TOKEN_PANTHEON
-            - ./terminus workflow:wait --commit $(git rev-parse HEAD) --max=300 -- liqx.dev
-            - ./terminus drush liqx.dev -- deploy
+#            - ./terminus auth:login --machine-token=$MACHINE_TOKEN_PANTHEON
+#            - ./terminus workflow:wait --commit $(git rev-parse HEAD) --max=300 -- liqx.dev
+#            - ./terminus drush liqx.dev -- deploy
 
