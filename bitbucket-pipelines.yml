@@ -28,6 +28,8 @@ pipelines:
           runs-on:
             - self.hosted
           image: wodby/drupal-php:8.3-dev-4.61.2
+          caches:
+            - custom-theme-cache
           script:
              # Installing terminus
             - sudo apk update && sudo apk add git curl
