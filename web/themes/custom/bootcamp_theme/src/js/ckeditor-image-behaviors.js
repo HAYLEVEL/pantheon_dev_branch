@@ -46,7 +46,7 @@
       $('.media--view-mode-ckeditor-slide-image .field--type-image').on('click', function () {
         // Find the index of clicked element.
         let $targetArrayItem = $(this).closest('.slider-container li');
-        let $targetArray = $(this).closest('.slider-container').children('li');
+        const $targetArray = $(this).closest('.slider-container').children('li');
         if ($targetArrayItem.length && $targetArray.length) {
           let targetIndex = Array.from($targetArray).indexOf($targetArrayItem[0]);
           imageClick(targetIndex, $targetArray.closest('.swiffy-slider').siblings('.swiffy-slider__gallery-wrapper').find('.swiffy-slider__gallery-initialization-container')[0]);

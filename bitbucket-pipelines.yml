@@ -37,9 +37,9 @@ pipelines:
             - git pull pantheon master
             - git merge origin/$BITBUCKET_BRANCH --allow-unrelated-histories
             # Force adding the generated files, bypassing .gitignore
-            - git add -f web/themes/custom/bootcamp_theme/js
-            - git add -f web/themes/custom/bootcamp_theme/css
-            - git add -f web/themes/custom/bootcamp_theme/sprite
+            - git add -v -f web/themes/custom/bootcamp_theme/js
+            - git add -v -f web/themes/custom/bootcamp_theme/css
+            - git add -v -f web/themes/custom/bootcamp_theme/sprite
             - git commit -m "Add generated files"
             - git push pantheon HEAD:master
             # Deploying using terminus
