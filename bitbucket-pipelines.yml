@@ -10,10 +10,10 @@ pipelines:
             - cd web/themes/custom/bootcamp_theme/
             - npm install && npm run build
             - ls -la
-          artifacts:
-            - web/themes/custom/bootcamp_theme/js/**
-            - web/themes/custom/bootcamp_theme/css/**
-            - web/themes/custom/bootcamp_theme/sprite/**
+#          artifacts:
+#            - web/themes/custom/bootcamp_theme/js/**
+#            - web/themes/custom/bootcamp_theme/css/**
+#            - web/themes/custom/bootcamp_theme/sprite/**
 
       - step:
           name: "Deploy_Pantheon"
