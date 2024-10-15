@@ -7,25 +7,25 @@ pipelines:
             - self.hosted
           image: wodby/node:18-dev-1.14.2
           caches:
+            - theme_cache
             - node # Cache node_modules for faster npm install
           script:
             - cd web/themes/custom/bootcamp_theme/
             - npm install && npm run build
             - ls -la
-            - mkdir -p /tmp/js /tmp/css /tmp/sprite
-            - cp -R js/ /tmp/js
-            - cp -R css/ /tmp/css
-            - cp -R sprite/ /tmp/sprite
-          artifacts:
-            - /tmp/js/**
-            - /tmp/css/**
-            - /tmp/sprite/**
+            - mkdir -p /build_cache/js /build_cache/css /build_cache/sprite
+            - cp -R js/ /build_cache/js
+            - cp -R css/ /build_cache/css
+            - cp -R sprite/ /build_cache/sprite
+
 
       - step:
           name: "Deploy_Pantheon"
           runs-on:
             - self.hosted
           image: wodby/drupal-php:8.3-dev-4.61.2
+          caches:
+            - theme_cache
           script:
              # Installing terminus
             - sudo apk update && sudo apk add git curl
@@ -45,7 +45,7 @@ pipelines:
 #            - git merge origin/$BITBUCKET_BRANCH --allow-unrelated-histories
             # Force adding the generated files, bypassing .gitignore
 #            - git status
-            - cat  $BITBUCKET_ARTIFACTS_DIR/tmp/js/ckeditor-image-behaviors.js
+            - cat  /build_cache/js/ckeditor-image-behaviors.js
 #            - git add -v -f web/themes/custom/bootcamp_theme/js
 #            - git add -v -f web/themes/custom/bootcamp_theme/css
 #            - git add -v -f web/themes/custom/bootcamp_theme/sprite
@@ -56,3 +56,6 @@ pipelines:
 #            - ./terminus auth:login --machine-token=$MACHINE_TOKEN_PANTHEON
 #            - ./terminus workflow:wait --commit $(git rev-parse HEAD) --max=300 -- liqx.dev
 #            - ./terminus drush liqx.dev -- deploy
+definitions:
+  caches:
+    theme_cache: /build_cache
