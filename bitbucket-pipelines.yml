@@ -61,3 +61,6 @@ pipelines:
 #            - ./terminus workflow:wait --commit $(git rev-parse HEAD) --max=300 -- liqx.dev
 #            - ./terminus drush liqx.dev -- deploy
 
+definitions:
+  caches:
+    npm: ~/.npm
