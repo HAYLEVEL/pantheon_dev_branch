@@ -7,7 +7,7 @@ pipelines:
             - self.hosted
           image: wodby/node:18-dev-1.14.2
           caches:
-            - node # Cache node_modules for faster npm install
+            - node # Cache node_modules for faster npm install t
           script:
             - cd web/themes/custom/bootcamp_theme/
             - npm install && npm run build
