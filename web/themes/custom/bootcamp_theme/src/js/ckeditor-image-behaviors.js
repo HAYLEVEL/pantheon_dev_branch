@@ -18,7 +18,7 @@
 	// sdasdasd
         return;
       }
-      let slidereElements = document.queryiSelectorAll('.paragraph--type--ckeditor-slides .swiffy-slider:not(.swiffy-slider__gallery-initialization-container)');
+      let slidereElements = document.querySelectorAll('.paragraph--type--ckeditor-slides .swiffy-slider:not(.swiffy-slider__gallery-initialization-container)');
       Array.from(sliderElements).forEach(function (sliderElement) {
         swiffyslider.onSlideEnd(sliderElement, function () {
           const currentActiveSlide = sliderElement.querySelector('.active');
