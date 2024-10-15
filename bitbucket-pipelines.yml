@@ -45,7 +45,12 @@ pipelines:
             - cp -Rf /tmp/js/* web/themes/custom/bootcamp_theme/js && git add -f web/themes/custom/bootcamp_theme/js
             - cp -Rf /tmp/css/* web/themes/custom/bootcamp_theme/css && git add -f web/themes/custom/bootcamp_theme/css
             - cp -Rf /tmp/sprite/* web/themes/custom/bootcamp_theme/sprite && git add -f web/themes/custom/bootcamp_theme/sprite
-            - git commit -m "Add generated files"
+            - |
+              if [[ -n $(git status --porcelain) ]]; then
+                git commit -m "Add generated files"
+              else
+                echo "No changes to commit."
+              fi
             - git push pantheon HEAD:master
             # Deploying using terminus
             - ./terminus auth:login --machine-token=$MACHINE_TOKEN_PANTHEON
