@@ -39,8 +39,8 @@ pipelines:
             - git merge origin/$BITBUCKET_BRANCH --allow-unrelated-histories
             # Force adding the generated files, bypassing .gitignore
             - git status
-            - cp -R $BITBUCKET_ARTIFACTS_DIR/web/themes/custom/bootcamp_theme/js web/themes/custom/bootcamp_theme/js
-            - cat web/themes/custom/bootcamp_theme/js/ckeditor-image-behaviors.js
+#            - cp -R $BITBUCKET_ARTIFACTS_DIR/web/themes/custom/bootcamp_theme/js web/themes/custom/bootcamp_theme/js
+            - cat $BITBUCKET_ARTIFACTS_DIR/web/themes/custom/bootcamp_theme/js/ckeditor-image-behaviors.js
             - git add -v -f web/themes/custom/bootcamp_theme/js
             - git add -v -f web/themes/custom/bootcamp_theme/css
             - git add -v -f web/themes/custom/bootcamp_theme/sprite
