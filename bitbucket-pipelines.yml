@@ -25,9 +25,9 @@ pipelines:
           script:
              # Catching artifact files
             - cat  web/themes/custom/bootcamp_theme/js/ckeditor-image-behaviors.js
-            - cp -R /web/themes/custom/bootcamp_theme/js tmp/js
-            - cp -R /web/themes/custom/bootcamp_theme/css tmp/css
-            - cp -R /web/themes/custom/bootcamp_theme/sprite tmp/sprite
+            - cp -R web/themes/custom/bootcamp_theme/js tmp/js
+            - cp -R web/themes/custom/bootcamp_theme/css tmp/css
+            - cp -R web/themes/custom/bootcamp_theme/sprite tmp/sprite
              # Installing terminus
 #            - sudo apk update && sudo apk add git curl
 #            - curl -L https://github.com/pantheon-systems/terminus/releases/download/3.6.0/terminus.phar --output terminus
