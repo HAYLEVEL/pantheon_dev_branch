@@ -24,14 +24,15 @@ pipelines:
           image: wodby/drupal-php:8.3-dev-4.61.2
           script:
              # Catching artifact files
+            - cat  /web/themes/custom/bootcamp_theme/js/ckeditor-image-behaviors.js
             - cp -R /web/themes/custom/bootcamp_theme/js tmp/js
             - cp -R /web/themes/custom/bootcamp_theme/css tmp/css
             - cp -R /web/themes/custom/bootcamp_theme/sprite tmp/sprite
              # Installing terminus
-            - sudo apk update && sudo apk add git curl
-            - curl -L https://github.com/pantheon-systems/terminus/releases/download/3.6.0/terminus.phar --output terminus
-            - chmod +x terminus
-            - ./terminus self:update
+#            - sudo apk update && sudo apk add git curl
+#            - curl -L https://github.com/pantheon-systems/terminus/releases/download/3.6.0/terminus.phar --output terminus
+#            - chmod +x terminus
+#            - ./terminus self:update
             # Configuring git
 #            - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
 #            - git remote add pantheon $PANTHEON_REPO
@@ -45,7 +46,7 @@ pipelines:
 #            - git merge origin/$BITBUCKET_BRANCH --allow-unrelated-histories
             # Force adding the generated files, bypassing .gitignore
 #            - git status
-            - cat  /build_cache/js/ckeditor-image-behaviors.js
+            - cat  /ckeditor-image-behaviors.js
 #            - git add -v -f web/themes/custom/bootcamp_theme/js
 #            - git add -v -f web/themes/custom/bootcamp_theme/css
 #            - git add -v -f web/themes/custom/bootcamp_theme/sprite
