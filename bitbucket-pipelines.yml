@@ -24,11 +24,12 @@ pipelines:
           image: wodby/drupal-php:8.3-dev-4.61.2
           script:
              # Catching artifact files
-            - mkdir -p tmp/js tmp/css tmp/sprite
+            #- mkdir -p tmp/js tmp/css tmp/sprite
             - cat  web/themes/custom/bootcamp_theme/js/ckeditor-image-behaviors.js
-            - cp -R web/themes/custom/bootcamp_theme/js tmp/js
-            - cp -R web/themes/custom/bootcamp_theme/css tmp/css
-            - cp -R web/themes/custom/bootcamp_theme/sprite tmp/sprite
+            - cp -R web/themes/custom/bootcamp_theme/js /tmp/js
+            - cp -R web/themes/custom/bootcamp_theme/css /tmp/css
+            - cp -R web/themes/custom/bootcamp_theme/sprite /tmp/sprite
+            - ls -la /tmp
              # Installing terminus
 #            - sudo apk update && sudo apk add git curl
 #            - curl -L https://github.com/pantheon-systems/terminus/releases/download/3.6.0/terminus.phar --output terminus
@@ -47,7 +48,6 @@ pipelines:
 #            - git merge origin/$BITBUCKET_BRANCH --allow-unrelated-histories
             # Force adding the generated files, bypassing .gitignore
 #            - git status
-            - cat  /ckeditor-image-behaviors.js
 #            - git add -v -f web/themes/custom/bootcamp_theme/js
 #            - git add -v -f web/themes/custom/bootcamp_theme/css
 #            - git add -v -f web/themes/custom/bootcamp_theme/sprite
