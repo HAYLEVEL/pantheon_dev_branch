@@ -24,6 +24,7 @@ pipelines:
           image: wodby/drupal-php:8.3-dev-4.61.2
           script:
              # Catching artifact files
+            - mkdir -p tmp/js tmp/css tmp/sprite
             - cat  web/themes/custom/bootcamp_theme/js/ckeditor-image-behaviors.js
             - cp -R web/themes/custom/bootcamp_theme/js tmp/js
             - cp -R web/themes/custom/bootcamp_theme/css tmp/css
