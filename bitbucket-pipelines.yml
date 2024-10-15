@@ -34,6 +34,7 @@ pipelines:
             - git diff  $BITBUCKET_BRANCH pantheon/master
             # Merging changes
             - git checkout pantheon/master
+            - git pull pantheon master
             - git merge origin/$BITBUCKET_BRANCH --allow-unrelated-histories
             # Force adding the generated files, bypassing .gitignore
             - git add -f web/themes/custom/bootcamp_theme/js
