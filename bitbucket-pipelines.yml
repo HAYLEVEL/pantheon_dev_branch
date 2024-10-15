@@ -40,7 +40,7 @@ pipelines:
             # Force adding the generated files, bypassing .gitignore
             - git status
 #            - cp -R $BITBUCKET_ARTIFACTS_DIR/web/themes/custom/bootcamp_theme/js web/themes/custom/bootcamp_theme/js
-            - cat $BITBUCKET_ARTIFACTS_DIR/web/themes/custom/bootcamp_theme/js/ckeditor-image-behaviors.js
+            - ls $BITBUCKET_ARTIFACTS_DIR/
             - git add -v -f web/themes/custom/bootcamp_theme/js
             - git add -v -f web/themes/custom/bootcamp_theme/css
             - git add -v -f web/themes/custom/bootcamp_theme/sprite
