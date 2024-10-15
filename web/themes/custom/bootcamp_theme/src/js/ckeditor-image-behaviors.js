@@ -15,6 +15,7 @@
       if (!once('ckeditor5Images', 'html').length) {
         // Early return avoid changing the indentation
         // for the rest of the code.
+	// sdasdasd
         return;
       }
       let sliderElements = document.querySelectorAll('.paragraph--type--ckeditor-slides .swiffy-slider:not(.swiffy-slider__gallery-initialization-container)');
