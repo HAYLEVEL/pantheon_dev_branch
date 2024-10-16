@@ -32,14 +32,13 @@ pipelines:
           - step:
               name: "ESLint"
               runs-on:
-                - ci
-              image: wodby/drupal-php:8.3-dev-4.61.2
+                - self.hosted
+              image: wodby/node:18-dev-1.14.2
               caches:
                 - node
               script:
                 - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
                 - git fetch origin $BITBUCKET_BRANCH $BITBUCKET_PR_DESTINATION_BRANCH
-                - sudo apk add npm
                 - sudo npm install
                 - wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b ~/bin
                 - |
