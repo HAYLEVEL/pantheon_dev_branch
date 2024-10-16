@@ -12,7 +12,7 @@ pipelines:
               script:
                 - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
                 - git fetch origin $BITBUCKET_BRANCH $BITBUCKET_PR_DESTINATION_BRANCH
-                - composer install --no-progress
+                - composer global require drupal/coder --no-progress --prefer-dist
                 - wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b ~/bin
                 - |
                   CHANGED_FILES=$(git diff --name-only origin/$BITBUCKET_BRANCH origin/$BITBUCKET_PR_DESTINATION_BRANCH -- | grep -E '\.(php|module|install|theme)$' || true)
@@ -21,7 +21,7 @@ pipelines:
                 # Run phpcs check on changed files
                 - |
                   if [ -n "$CHANGED_FILES" ]; then
-                    vendor/bin/phpcs --standard=Drupal,DrupalPractice $CHANGED_FILES --report=checkstyle | tee phpcs_report.txt
+                    ~/.composer/vendor/bin/phpcs --standard=Drupal,DrupalPractice $CHANGED_FILES --report=checkstyle | tee phpcs_report.txt
                   else
                     echo "No PHP files changed."
                     exit 0;
@@ -36,12 +36,10 @@ pipelines:
               image: wodby/drupal-php:8.3-dev-4.61.2
               caches:
                 - node
-                - composer
               script:
                 - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
                 - git fetch origin $BITBUCKET_BRANCH $BITBUCKET_PR_DESTINATION_BRANCH
                 - sudo apk add npm
-                - composer install --no-progress
                 - sudo npm install
                 - wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b ~/bin
                 - |
