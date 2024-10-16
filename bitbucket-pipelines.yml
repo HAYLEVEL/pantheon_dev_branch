@@ -33,7 +33,7 @@ pipelines:
               name: "ESLint"
               runs-on:
                 - self.hosted
-              image: wodby/node:18-dev-1.14.2
+              image: wodby/node:22.8-dev
               caches:
                 - node
               script:
