@@ -116,7 +116,7 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "./post_install_scripts/cleanup_tests.sh",
+	    "./post_install_scripts/cleanup_tests.sh",
 	    "./post_install_scripts/install_pre-commit.sh"
 	],
         "pre-update-cmd": ["DrupalComposerManaged\\ComposerScripts::preUpdate"],

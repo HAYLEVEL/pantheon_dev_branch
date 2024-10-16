@@ -6,7 +6,7 @@ if [ -z "$CHANGED_FILES" ]; then
   echo "No PHP-related files have changed, skipping PHPCS."
 else
   # Run PHPCS on the changed files
-  vendor/bin/phpcs --standard=Drupal,DrupalPractice $CHANGED_FILES --extensions=php,install,module,theme
+  $(git rev-parse --show-toplevel)/vendor/bin/phpcs --standard=Drupal,DrupalPractice $CHANGED_FILES --extensions=php,install,module,theme
 fi
 # Capture the exit code of PHPCS
 PHPCS_STATUS=$?
@@ -21,8 +21,12 @@ else
 fi
 # Capture the exit code of ESLint
 ESLINT_STATUS=$?
+#Running Trivy to check for vulnerabilities
+trivy fs .
+# Capture the exit code of TRIVY
+TRIVY_STATUS=$?
 # Exit with code according to PHPCS and ESLint
-if [ $PHPCS_STATUS -ne 0 ] || [ $ESLINT_STATUS -ne 0 ]; then
+if [ $PHPCS_STATUS -ne 0 ] || [ $ESLINT_STATUS -ne 0 ] || [ $TRIVY_STATUS -ne 0 ]; then
   exit 1
 else
   exit 0
