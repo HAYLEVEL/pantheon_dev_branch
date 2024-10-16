@@ -44,8 +44,7 @@ pipelines:
                 - |
                   CHANGED_FILES=$(git diff --name-only origin/$BITBUCKET_BRANCH origin/$BITBUCKET_PR_DESTINATION_BRANCH | grep -E '\.(js)$' || true)
                   echo "Changed files: $CHANGED_FILES"
-                - npx eslint --no-error-on-unmatched-pattern $CHANGED_FILES --format=checkstyle | tee eslint_report.txt
-                - cat eslint_report.txt
+                - npx eslint -c ./node_modules/eslint-config-drupal/node_modules/color-name/.eslintrc.json --no-error-on-unmatched-pattern $CHANGED_FILES --format=checkstyle | tee eslint_report.txt
                 - ~/bin/reviewdog -f=checkstyle -name="ESLint" -reporter=bitbucket-code-report -fail-level=any < eslint_report.txt
           - step:
              name: "Trivy"
