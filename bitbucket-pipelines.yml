@@ -55,6 +55,34 @@ pipelines:
              script:
                - trivy fs --exit-code 1 --format table ./
 
+  branches:
+    'master':
+      - step:
+          name: "Deploy_Pantheon"
+          runs-on:
+            - self.hosted
+          image: wodby/drupal-php:8.3-dev-4.61.2
+          script:
+             # Installing terminus
+            - sudo apk update && sudo apk add git curl
+            - curl -L https://github.com/pantheon-systems/terminus/releases/download/3.6.0/terminus.phar --output terminus
+            - chmod +x terminus
+            - ./terminus self:update
+            # Configuring git
+            - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
+            - git remote add pantheon $PANTHEON_REPO
+            - ssh-keyscan -p 2222 $PANTHEON_HOST >> ~/.ssh/known_hosts
+            - git fetch pantheon
+            - git diff  $BITBUCKET_BRANCH pantheon/master
+            # Merging changes
+            - git checkout pantheon/master
+            - git merge origin/$BITBUCKET_BRANCH --allow-unrelated-histories
+            - git push pantheon HEAD:master
+            # Deploying using terminus
+            - ./terminus auth:login --machine-token=$MACHINE_TOKEN_PANTHEON
+            - ./terminus workflow:wait --commit $(git rev-parse HEAD) --max=300 -- liqx.dev
+            - ./terminus drush liqx.dev -- deploy
+
 definitions:
   caches:
     composer: ~/.composer/cache
