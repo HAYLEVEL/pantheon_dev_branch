@@ -13,7 +13,7 @@ pipelines:
                 - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
                 - git fetch origin $BITBUCKET_BRANCH $BITBUCKET_PR_DESTINATION_BRANCH
                 - composer global config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
-                - composer global require drupal/coder --no-progress --prefer-dist
+                - composer global require drupal/coder:^8.3 --no-progress --prefer-dist
                 - wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b ~/bin
                 - |
                   CHANGED_FILES=$(git diff --name-only origin/$BITBUCKET_BRANCH origin/$BITBUCKET_PR_DESTINATION_BRANCH -- | grep -E '\.(php|module|install|theme)$' || true)
@@ -45,7 +45,7 @@ pipelines:
                 - |
                   CHANGED_FILES=$(git diff --name-only origin/$BITBUCKET_BRANCH origin/$BITBUCKET_PR_DESTINATION_BRANCH | grep -E '\.(js)$' || true)
                   echo "Changed files: $CHANGED_FILES"
-                - npx eslint -c ./node_modules/eslint-config-drupal/node_modules/color-name/.eslintrc.json --no-error-on-unmatched-pattern $CHANGED_FILES | tee eslint_report.txt
+                - npx eslint --no-error-on-unmatched-pattern $CHANGED_FILES | tee eslint_report.txt
                 - ~/bin/reviewdog -f=eslint -name="ESLint" -reporter=bitbucket-code-report -fail-level=any < eslint_report.txt
 
           - step:
