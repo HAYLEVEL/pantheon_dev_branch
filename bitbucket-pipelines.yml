@@ -58,11 +58,31 @@ pipelines:
   branches:
     'master':
       - step:
+          name: "Build"
+          runs-on:
+            - self.hosted
+          image: wodby/node:18-dev-1.14.2
+          caches:
+            - node # Cache node_modules for faster npm install t
+          script:
+            - cd web/themes/custom/bootcamp_theme/
+            - npm install && npm run build
+            - ls -la
+          artifacts:
+            - web/themes/custom/bootcamp_theme/js/**
+            - web/themes/custom/bootcamp_theme/css/**
+            - web/themes/custom/bootcamp_theme/sprite/**
+
+      - step:
           name: "Deploy_Pantheon"
           runs-on:
             - self.hosted
           image: wodby/drupal-php:8.3-dev-4.61.2
           script:
+             # Catching artifact files
+            - cp -R web/themes/custom/bootcamp_theme/js /tmp/js
+            - cp -R web/themes/custom/bootcamp_theme/css /tmp/css
+            - cp -R web/themes/custom/bootcamp_theme/sprite /tmp/sprite
              # Installing terminus
             - sudo apk update && sudo apk add git curl
             - curl -L https://github.com/pantheon-systems/terminus/releases/download/3.6.0/terminus.phar --output terminus
@@ -77,6 +97,16 @@ pipelines:
             # Merging changes
             - git checkout pantheon/master
             - git merge origin/$BITBUCKET_BRANCH --allow-unrelated-histories
+            # Force adding the generated files, bypassing .gitignore
+            - cp -Rf /tmp/js/* web/themes/custom/bootcamp_theme/js && git add -f web/themes/custom/bootcamp_theme/js
+            - cp -Rf /tmp/css/* web/themes/custom/bootcamp_theme/css && git add -f web/themes/custom/bootcamp_theme/css
+            - cp -Rf /tmp/sprite/* web/themes/custom/bootcamp_theme/sprite && git add -f web/themes/custom/bootcamp_theme/sprite
+            - |
+              if [[ -n $(git status --porcelain) ]]; then
+                git commit -m "Add generated files"
+              else
+                echo "No changes to commit."
+              fi
             - git push pantheon HEAD:master
             # Deploying using terminus
             - ./terminus auth:login --machine-token=$MACHINE_TOKEN_PANTHEON
