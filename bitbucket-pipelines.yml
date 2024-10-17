@@ -44,7 +44,7 @@ pipelines:
                 - |
                   CHANGED_FILES=$(git diff --name-only origin/$BITBUCKET_BRANCH origin/$BITBUCKET_PR_DESTINATION_BRANCH | grep -E '\.(js)$' || true)
                   echo "Changed files: $CHANGED_FILES"
-                - echo "{  "extends": "eslint-config-drupal"  }" > .eslintrc.json
+                - echo '{  "extends": "eslint-config-drupal"  }' > .eslintrc.json
                 - npx eslint --no-error-on-unmatched-pattern $CHANGED_FILES | tee eslint_report.txt
                 - ~/bin/reviewdog -f=eslint -name="ESLint" -reporter=bitbucket-code-report -fail-level=any < eslint_report.txt
 
