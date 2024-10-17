@@ -60,7 +60,7 @@ pipelines:
                - trivy fs --exit-code 1 --format table ./
 
   branches:
-    'master':
+    'test_cd_custom_theme':
       - step:
           name: "Build"
           runs-on:
