@@ -13,12 +13,11 @@ pipelines:
                 - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
                 - git fetch origin $BITBUCKET_BRANCH $BITBUCKET_PR_DESTINATION_BRANCH
                 - composer global config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
-                - composer global require drupal/coder:^8.3 --no-progress --prefer-dist
+                - composer global require drupal/coder --no-progress --prefer-dist
                 - wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b ~/bin
                 - |
                   CHANGED_FILES=$(git diff --name-only origin/$BITBUCKET_BRANCH origin/$BITBUCKET_PR_DESTINATION_BRANCH -- | grep -E '\.(php|module|install|theme)$' || true)
                   echo "Changed files: $CHANGED_FILES"
-
                 # Run phpcs check on changed files
                 - |
                   if [ -n "$CHANGED_FILES" ]; then
@@ -34,22 +33,24 @@ pipelines:
               name: "ESLint"
               runs-on:
                 - self.hosted
-              image: wodby/node:22.8-dev
+              image: wodby/drupal-php:8.3-dev-4.61.2
               caches:
+                - composer
                 - node
               script:
                 - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
                 - git fetch origin $BITBUCKET_BRANCH $BITBUCKET_PR_DESTINATION_BRANCH
+                - sudo apk add npm
                 - sudo npm install
                 - wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b ~/bin
                 - |
                   CHANGED_FILES=$(git diff --name-only origin/$BITBUCKET_BRANCH origin/$BITBUCKET_PR_DESTINATION_BRANCH | grep -E '\.(js)$' || true)
                   echo "Changed files: $CHANGED_FILES"
-                - |
-                  echo '{
-                          "extends": "eslint-config-drupal"
-                        }' > .eslintrc.json
-                - npx eslint --no-error-on-unmatched-pattern $CHANGED_FILES | tee eslint_report.txt
+                # Installation only necessary module for linting(generating .eslintrc.json file).
+                - composer init --no-interaction --require=drupal/core:^11
+                - rm composer.lock
+                - composer install
+                - npx eslint -c vendor/drupal/core/.eslintrc.json --no-error-on-unmatched-pattern $CHANGED_FILES | tee eslint_report.txt
                 - ~/bin/reviewdog -f=eslint -name="ESLint" -reporter=bitbucket-code-report -fail-level=any < eslint_report.txt
 
           - step:
@@ -63,11 +64,31 @@ pipelines:
   branches:
     'master':
       - step:
+          name: "Build"
+          runs-on:
+            - self.hosted
+          image: wodby/node:18-dev-1.14.2
+          caches:
+            - node # Cache node_modules for faster npm install t
+          script:
+            - cd web/themes/custom/bootcamp_theme/
+            - npm install && npm run build
+            - ls -la
+          artifacts:
+            - web/themes/custom/bootcamp_theme/js/**
+            - web/themes/custom/bootcamp_theme/css/**
+            - web/themes/custom/bootcamp_theme/sprite/**
+
+      - step:
           name: "Deploy_Pantheon"
           runs-on:
             - self.hosted
           image: wodby/drupal-php:8.3-dev-4.61.2
           script:
+             # Catching artifact files
+            - cp -R web/themes/custom/bootcamp_theme/js /tmp/js
+            - cp -R web/themes/custom/bootcamp_theme/css /tmp/css
+            - cp -R web/themes/custom/bootcamp_theme/sprite /tmp/sprite
              # Installing terminus
             - sudo apk update && sudo apk add git curl
             - curl -L https://github.com/pantheon-systems/terminus/releases/download/3.6.0/terminus.phar --output terminus
@@ -82,6 +103,16 @@ pipelines:
             # Merging changes
             - git checkout pantheon/master
             - git merge origin/$BITBUCKET_BRANCH --allow-unrelated-histories
+            # Force adding the generated files, bypassing .gitignore
+            - cp -Rf /tmp/js/* web/themes/custom/bootcamp_theme/js && git add -f web/themes/custom/bootcamp_theme/js
+            - cp -Rf /tmp/css/* web/themes/custom/bootcamp_theme/css && git add -f web/themes/custom/bootcamp_theme/css
+            - cp -Rf /tmp/sprite/* web/themes/custom/bootcamp_theme/sprite && git add -f web/themes/custom/bootcamp_theme/sprite
+            - |
+              if [[ -n $(git status --porcelain) ]]; then
+                git commit -m "Add generated files"
+              else
+                echo "No changes to commit."
+              fi
             - git push pantheon HEAD:master
             # Deploying using terminus
             - ./terminus auth:login --machine-token=$MACHINE_TOKEN_PANTHEON
