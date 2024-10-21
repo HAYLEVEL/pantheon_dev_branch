@@ -50,7 +50,7 @@ pipelines:
                 - composer init --no-interaction --require=drupal/core:^11
                 - rm composer.lock
                 - composer install
-                - npx eslint --no-error-on-unmatched-pattern $CHANGED_FILES | tee eslint_report.txt
+                - npx eslint -c vendor/drupal/core/.eslintrc.json --no-error-on-unmatched-pattern $CHANGED_FILES | tee eslint_report.txt
                 - ~/bin/reviewdog -f=eslint -name="ESLint" -reporter=bitbucket-code-report -fail-level=any < eslint_report.txt
 
           - step:
