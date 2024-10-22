@@ -123,4 +123,3 @@ definitions:
   caches:
     composer: ~/.composer/cache
     npm: ~/.npm
-
