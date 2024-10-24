@@ -13,7 +13,7 @@ pipelines:
                 - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
                 - git fetch origin $BITBUCKET_BRANCH $BITBUCKET_PR_DESTINATION_BRANCH
                 - composer global config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
-                - composer global require drupal/coder --no-progress --prefer-dist
+                - composer global require drupal/coder:8.3 --no-progress --prefer-dist
                 - wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b ~/bin
                 - |
                   CHANGED_FILES=$(git diff --name-only origin/$BITBUCKET_BRANCH origin/$BITBUCKET_PR_DESTINATION_BRANCH -- | grep -E '\.(php|module|install|theme)$' || true)
@@ -35,7 +35,6 @@ pipelines:
                 - self.hosted
               image: wodby/drupal-php:8.3-dev-4.61.2
               caches:
-                - composer
                 - node
               script:
                 - git config --global --add safe.directory $BITBUCKET_CLONE_DIR

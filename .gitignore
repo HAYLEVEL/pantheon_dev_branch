@@ -56,7 +56,6 @@
 # file.
 # ------------------------------------------------------------------
 /drush/Commands/contrib/
-!web/core/.eslintrc.json
 /web/core/
 /web/modules/contrib/
 /web/themes/contrib/
