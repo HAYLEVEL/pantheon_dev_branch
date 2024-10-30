@@ -37,6 +37,8 @@ pipelines:
                 - |
                   if [ -n "$BITBUCKET_PR_ID" ]; then
                     ~/bin/reviewdog -f=checkstyle -name="PHPCS" -reporter=bitbucket-code-report -fail-level=any < phpcs_report.txt
+                  elif [ -s phpcs_report.txt ]; then
+                    exit 1;
                   fi
 
           - step:
@@ -65,6 +67,8 @@ pipelines:
                 - |
                   if [ -n "$BITBUCKET_PR_ID" ]; then
                     ~/bin/reviewdog -f=eslint -name="ESLint" -reporter=bitbucket-code-report -fail-level=any < eslint_report.txt
+                  elif [ -s eslint_report.txt ]; then
+                    exit 1;
                   fi
 
           - step:
