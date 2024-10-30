@@ -13,17 +13,24 @@ pipelines:
                 - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
                 - git fetch origin $BITBUCKET_BRANCH $BITBUCKET_PR_DESTINATION_BRANCH
                 - composer global config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
-                - composer global require drupal/coder --no-progress --prefer-dist
+                - composer global require drupal/coder:8.3 --no-progress --prefer-dist
                 - wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b ~/bin
                 - |
-                  CHANGED_FILES=$(git diff --name-only origin/$BITBUCKET_BRANCH origin/$BITBUCKET_PR_DESTINATION_BRANCH -- | grep -E '\.(php|module|install|theme)$' || true)
-                  echo "Changed files: $CHANGED_FILES"
+                  if [ -n "$BITBUCKET_PR_ID" ]; then
+                    # Get changed PHP-related files for pull requests
+                    CHANGED_FILES=$(git diff --name-only origin/$BITBUCKET_BRANCH origin/$BITBUCKET_PR_DESTINATION_BRANCH -- | grep -E '\.(php|module|install|theme|inc|test|profile|css|info|txt|md|yml)$' || true)
+                  else
+                    # For manual runs, check all PHP-related files under custom directories
+                    CHANGED_FILES=$(find web/modules/custom/**/ web/themes/custom/**/ -type f -name '*.php' -o -name '*.module' -o -name '*.install' -o -name '*.theme' -o -name '*.inc' -o -name '*.test' -o -name '*.profile' -o -name '*.css' -o -name '*.info' -o -name '.txt' -o -name '*.md' -o -name '*.yml')
+                  fi
+                  echo "Files that will be checked: $CHANGED_FILES"
                 # Run phpcs check on changed files
                 - |
+
                   if [ -n "$CHANGED_FILES" ]; then
                     ~/.composer/vendor/bin/phpcs --standard=Drupal,DrupalPractice $CHANGED_FILES --report=checkstyle | tee phpcs_report.txt
                   else
-                    echo "No PHP files changed."
+                    echo "No Drupal related files "
                     exit 0;
                   fi
                 - cat phpcs_report.txt
@@ -35,7 +42,6 @@ pipelines:
                 - self.hosted
               image: wodby/drupal-php:8.3-dev-4.61.2
               caches:
-                - composer
                 - node
               script:
                 - git config --global --add safe.directory $BITBUCKET_CLONE_DIR
@@ -44,13 +50,15 @@ pipelines:
                 - sudo npm install
                 - wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b ~/bin
                 - |
-                  CHANGED_FILES=$(git diff --name-only origin/$BITBUCKET_BRANCH origin/$BITBUCKET_PR_DESTINATION_BRANCH | grep -E '\.(js)$' || true)
-                  echo "Changed files: $CHANGED_FILES"
-                # Installation only necessary module for linting(generating .eslintrc.json file).
-                - composer init --no-interaction --require=drupal/core:^11
-                - rm composer.lock
-                - composer install
-                - npx eslint -c vendor/drupal/core/.eslintrc.json --no-error-on-unmatched-pattern $CHANGED_FILES | tee eslint_report.txt
+                  if [ -n "$BITBUCKET_PR_ID" ]; then
+                    # Get changed JS files for pull requests
+                    CHANGED_FILES=$(git diff --name-only origin/$BITBUCKET_BRANCH origin/$BITBUCKET_PR_DESTINATION_BRANCH | grep -E '\.(js)$' || true)
+                  else
+                    # For manual runs, check all JS files under custom directories
+                    CHANGED_FILES=$(find web/modules/custom/**/ web/themes/custom/**/ -type f -name '*.js')
+                  fi
+                  echo "Files that will be checked: $CHANGED_FILES"
+                - npx eslint -c ci_configuration/.eslintrc.json --no-error-on-unmatched-pattern $CHANGED_FILES | tee eslint_report.txt
                 - ~/bin/reviewdog -f=eslint -name="ESLint" -reporter=bitbucket-code-report -fail-level=any < eslint_report.txt
 
           - step:
@@ -60,7 +68,6 @@ pipelines:
              image: aquasec/trivy:latest
              script:
                - trivy fs --exit-code 1 --format table ./
-
   branches:
     'master':
       - step:
